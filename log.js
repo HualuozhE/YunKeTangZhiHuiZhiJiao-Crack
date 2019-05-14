@@ -1,11 +1,12 @@
 const path = require('path');
 const fs = require('fs');
 
-module.exports = function (outErr) {
+
+module.exports = function logHandle(outErr, msg ='') {
 
   let UTCTime = new Date().toUTCString();
 
-  let filePath = path.join(__dirname, './errorLog.txt');
+  let filePath = path.join(__dirname, './logs/errorLog.txt');
 
   fs.readFile(filePath, 'utf8', (err, data) => {
 
@@ -18,7 +19,7 @@ module.exports = function (outErr) {
       }
 
 
-      fs.writeFile(filePath, data + '\r\n\r\n' + UTCTime + '   ' + outErr + '\r\n' + (outErr && outErr.stack), 'utf8', (err) => {
+      fs.writeFile(filePath, data + '\r\n\r\n' + UTCTime + '   ' + outErr + '\r\n' + (outErr && outErr.stack) + '\r\n' + msg + '\r\n', 'utf8', (err) => {
           if (err) {
               throw err;
           }

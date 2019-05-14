@@ -16,7 +16,7 @@ function Crack(user = 0, pwd = 0) {
 }
 
 /**
- * 请求地址
+ * 请求地址,放在原型中存储
  * @type {{getCellListByTopicId: string, getTopicListByModuleId: string, getModuleListByClassId: string, getCourseList: string, login: string}}
  */
 Crack.prototype.requestUri = {
@@ -149,7 +149,7 @@ Crack.prototype.go = function (body, option) {
 
         option.videoTimeTotalLong = 9999;
 
-        request.requestDelayByPost(uri.statStuProcessCellLogAndTimeLong, option)
+        request.requestByPost(uri.statStuProcessCellLogAndTimeLong, option)
           .then(res => {
 
             if (res.code !== 1) {

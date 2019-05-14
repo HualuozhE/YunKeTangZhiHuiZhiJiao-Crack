@@ -2,11 +2,15 @@ const fs = require('fs');
 const path = require('path');
 const extend = require('node.extend');
 const util = require('util');
-const {spawn} = require('child_process');
+const {
+    spawn
+} = require('child_process');
 
 const request = require('./easy_request');
-
 const logHandle = require('./log');
+
+const PROCESS = 4; // 进程数
+
 
 function Crack(user, pwd) {
 
@@ -19,7 +23,7 @@ function Crack(user, pwd) {
 }
 
 /**
- * 请求地址
+ * 请求地址,放在原型中存储
  * @type {{getCellListByTopicId: string, getTopicListByModuleId: string, getModuleListByClassId: string, getCourseList: string, login: string}}
  */
 Crack.prototype.requestUri = {
@@ -73,7 +77,8 @@ Crack.prototype.go = function () {
                             value: value,
                             config: config
                         });
-                    });
+                    })
+                    .catch(err => reject(err));
             });
 
         }
@@ -113,47 +118,50 @@ Crack.prototype.go = function () {
        openClassId: 'd1khaqeqh5peghmiu6jayq' } ] }
                  */
 
-                 let i = 0;
-                 let len = obj.value.length;
-                 let count = 0;
+                let i = 0;
+                let len = obj && obj.value && obj.value.length || 0;
+                let count = 0;
 
-                 function recursive() {
+                function recursive() {
 
-                    if (i === len) {
-                        return false;
-                    };
+                    if (i === len) return false;
+
+                    count++;
 
                     let ykt = spawn('node', [path.join(__dirname, './plugin/ykt.js'), JSON.stringify(obj.value[i]), JSON.stringify(obj.config[i])]);
 
-                    ykt.stdout.on('data', chunk => {
-                        count += parseInt(chunk.toString());
-                        recursive();
+                    ykt.on('exit', () => count--);
+
+                    ykt.on('error', (err) => {
+                        logHandle(err, '子进程的Error，注意了');
+                        count--;
                     });
 
-                    // ykt.stderr.on('data', (chunk) => {
-                    //     console.log(chunk.toString(), '我是error');
-                    //     recursive()
-                    // });
+                    // ykt.stderr.on('data', () => recursive());
 
                     i++;
 
-                 }
+                }
 
-                 recursive();
+                recursive(); //上来就先启动一个
 
-                 return new Promise(resolve => {
+                return new Promise(resolve => {
                     let timer = setInterval(() => {
                         if (i === len) {
-                            request.requestByPost(that.requestUri.getMyCourseList, {userId: stuId}).then(res => resolve(res));
+                            request.requestByPost(that.requestUri.getMyCourseList, {
+                                userId: stuId
+                            }).then(res => resolve(res));
                             clearInterval(timer);
+                        } else if (count < PROCESS) {
+                            recursive();
                         }
                     }, 1000);
                 });
-                
+
             })
             .then(res => {
 
-                const list = res.list;
+                const list = res && res.list || [];
 
                 let i = 0;
                 let len = list.length;
@@ -161,20 +169,22 @@ Crack.prototype.go = function () {
 
                 function recursive() {
 
-                   if (i === len) {
-                       return false;
-                   };
+                    if (i === len) return false;;
 
-                   let ykt = spawn('node', [path.join(__dirname, './plugin/mooc.js'), JSON.stringify(list[i]), JSON.stringify({userId: stuId})]);
+                    count++;
 
-                   ykt.stdout.on('data', chunk => {
-                       count += parseInt(chunk.toString());
-                       recursive();
-                   });
+                    let ykt = spawn('node', [path.join(__dirname, './plugin/mooc.js'), JSON.stringify(list[i]), JSON.stringify({
+                        userId: stuId
+                    })]);
 
-                   ykt.stderr.on('data', () => recursive());
+                    ykt.on('exit', () => count--);
 
-                   i++;
+                    ykt.on('error', (err) => {
+                        logHandle(err, '子进程的Error，注意了');
+                        count--;
+                    });
+
+                    i++;
 
                 }
 
@@ -184,11 +194,16 @@ Crack.prototype.go = function () {
                     if (i === len) {
                         clearInterval(timer);
                         resolve(1);
+                    } else if (count < PROCESS) {
+                        recursive();
                     }
                 }, 1000);
 
             })
-            .catch(logHandle);
+            .catch(err => {
+                logHandle(err);
+                resolve(1);
+            });
 
     });
 
@@ -270,5 +285,5 @@ module.exports.login = function (user, pwd) {
 
 // example
 module.exports.go('账号', '密码')
-    .then(() => console.log('complete'))
+    .then(() => console.log('complete!'))
     .catch(msg => console.log(msg));

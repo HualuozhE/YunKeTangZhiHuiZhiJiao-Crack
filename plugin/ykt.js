@@ -17,7 +17,7 @@ function Crack(user = 0, pwd = 0) {
 }
 
 /**
- * 请求地址
+ * 请求地址,放在原型中存储
  * @type {{getCellListByTopicId: string, getTopicListByModuleId: string, getModuleListByClassId: string, getCourseList: string, login: string}}
  */
 Crack.prototype.requestUri = {
@@ -272,8 +272,7 @@ Crack.prototype.go = function (body, option) {
                         token: option.token
                     };
 
-
-                    request.requestDelayByPost(that.requestUri.stuProcessCellLog, newOption)
+                    request.requestByPost(that.requestUri.stuProcessCellLog, newOption)
                         .then(body => {
                             if (body.code !== 1) {
                                 return logHandle(new Error('发送结果时code不为1了，错了啊。' + JSON.stringify(body)));

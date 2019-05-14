@@ -75,6 +75,7 @@ exports.requestByPost = function (url, parm = {}) {
 
 };
 
+
 exports.requestDelayByPost = function (url, parm = {}) {
 
   return new Promise(function (resolve) {
@@ -85,3 +86,4 @@ exports.requestDelayByPost = function (url, parm = {}) {
   .then(() => exports.requestByPost(url, parm));
 
 };
+
