@@ -1,0 +1,16 @@
+{
+  "name": "YunKeTang",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ./index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "node.extend": "^2.0.2",
+    "request": "^2.88.0"
+  }
+}

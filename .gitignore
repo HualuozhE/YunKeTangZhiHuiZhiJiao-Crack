@@ -1,0 +1,5 @@
+.idea
+node_modules
+log.txt
+test.json
+push.bat
