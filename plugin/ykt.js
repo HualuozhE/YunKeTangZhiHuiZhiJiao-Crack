@@ -226,7 +226,7 @@ Crack.prototype.go = function (body, option) {
                 if (res && res.args && res.args.duration) {
                   let second = getSecond(res.args.duration);
                   optionNew.cellData = Buffer.from('zjy,' + second + ',0').toString('base64');
-                  optionNew.timeLongEx = second + 60;
+                  optionNew.timeLongEx = second < 240 ? 420 : second;
                 }
 
                 this.sendRecord(optionNew);
@@ -263,9 +263,9 @@ Crack.prototype.go = function (body, option) {
           let newOption = {
             sourceType: 2,
             picNum: 9999,
-            studyCellTime: option.timeLongEx || 4000,
-            studyNewlyTime: option.timeLongEx || 4000,
-            studyNewlyPicNum: option.timeLongEx || 4000,
+            studyCellTime: option.timeLongEx || 400,
+            studyNewlyTime: option.timeLongEx || 400,
+            studyNewlyPicNum: option.timeLongEx || 400,
             courseOpenId: option.courseOpenId,
             openClassId: option.openClassId,
             cellId: option.cellId,

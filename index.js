@@ -221,7 +221,7 @@ Crack.prototype.go = function () {
 
         function recursive() {
 
-          if (i === len) return false;;
+          if (i === len) return resolve(1);
 
           let ykt = spawn('node', [path.join(__dirname, './plugin/mooc.js'), JSON.stringify(list[i]), JSON.stringify({
             userId: stuId
@@ -239,13 +239,6 @@ Crack.prototype.go = function () {
         }
 
         recursive();
-
-        let timer = setInterval(() => {
-          if (i === len) {
-            clearInterval(timer);
-            resolve(1);
-          }
-        }, 1000);
 
       })
       .catch(err => {
