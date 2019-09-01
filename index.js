@@ -27,14 +27,13 @@ function Crack(user, pwd) {
  * @type {{getCellListByTopicId: string, getTopicListByModuleId: string, getModuleListByClassId: string, getCourseList: string, login: string}}
  */
 Crack.prototype.requestUri = {
-
-  login: 'https://zjy2.icve.com.cn/newmobileapi/mobilelogin/newlogin',
-  getCourseList: 'https://zjy2.icve.com.cn/newmobileapi/student/getCourseList',
-  getModuleListByClassId: 'https://zjy2.icve.com.cn/newmobileapi/AssistTeacher/getModuleListByClassId',
-  getTopicListByModuleId: 'https://zjy2.icve.com.cn/newmobileapi/AssistTeacher/getTopicListByModuleId',
-  getCellListByTopicId: 'https://zjy2.icve.com.cn/newmobileapi/AssistTeacher/getCellListByTopicId',
-  getCellInfoByCellId: 'https://zjy2.icve.com.cn/newmobileapi/AssistTeacher/getCellInfoByCellId',
-  stuProcessCellLog: 'https://zjy2.icve.com.cn/newmobileapi/Student/stuProcessCellLog',
+  login: 'https://zjyapp.icve.com.cn/newmobileapi/mobilelogin/newlogin',
+  getCourseList: 'https://zjyapp.icve.com.cn/newmobileapi/student/getCourseList',
+  getModuleListByClassId: 'https://zjyapp.icve.com.cn/newmobileapi/AssistTeacher/getModuleListByClassId',
+  getTopicListByModuleId: 'https://zjyapp.icve.com.cn/newmobileapi/AssistTeacher/getTopicListByModuleId',
+  getCellListByTopicId: 'https://zjyapp.icve.com.cn/newmobileapi/AssistTeacher/getCellListByTopicId',
+  getCellInfoByCellId: 'https://zjyapp.icve.com.cn/newmobileapi/AssistTeacher/getCellInfoByCellId',
+  stuProcessCellLog: 'https://zjyapp.icve.com.cn/newmobileapi/Student/stuProcessCellLog',
   getMyCourseList: 'https://mooc.icve.com.cn/mobile/courseinfo/getMyCourseList',
   getStuScoreList: 'https://zjy2.icve.com.cn/study/viewScore/getStuScoreList',
   pcLogin: 'https://zjy2.icve.com.cn/common/login/login'

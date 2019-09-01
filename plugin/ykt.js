@@ -21,15 +21,14 @@ function Crack(user = 0, pwd = 0) {
  * @type {{getCellListByTopicId: string, getTopicListByModuleId: string, getModuleListByClassId: string, getCourseList: string, login: string}}
  */
 Crack.prototype.requestUri = {
-
-  login: 'https://zjy2.icve.com.cn/newmobileapi/mobilelogin/newlogin',
-  getCourseList: 'https://zjy2.icve.com.cn/newmobileapi/student/getCourseList',
-  getModuleListByClassId: 'https://zjy2.icve.com.cn/newmobileapi/AssistTeacher/getModuleListByClassId',
-  getTopicListByModuleId: 'https://zjy2.icve.com.cn/newmobileapi/AssistTeacher/getTopicListByModuleId',
-  getCellListByTopicId: 'https://zjy2.icve.com.cn/newmobileapi/AssistTeacher/getCellListByTopicId',
-  getCellInfoByCellId: 'https://zjy2.icve.com.cn/newmobileapi/AssistTeacher/getCellInfoByCellId',
-  stuProcessCellLog: 'https://zjy2.icve.com.cn/newmobileapi/Student/stuProcessCellLog',
-  updateDataByCell: 'https://zjy2.icve.com.cn/newmobileapi/AssistTeacher/updateDataByCell',
+  login: 'https://zjyapp.icve.com.cn/newmobileapi/mobilelogin/newlogin',
+  getCourseList: 'https://zjyapp.icve.com.cn/newmobileapi/student/getCourseList',
+  getModuleListByClassId: 'https://zjyapp.icve.com.cn/newmobileapi/assistTeacher/getModuleListByClassId',
+  getTopicListByModuleId: 'https://zjyapp.icve.com.cn/newmobileapi/assistTeacher/getTopicListByModuleId',
+  getCellListByTopicId: 'https://zjyapp.icve.com.cn/newmobileapi/assistTeacher/getCellListByTopicId',
+  getCellInfoByCellId: 'https://zjyapp.icve.com.cn/newmobileapi/assistTeacher/getCellInfoByCellId',
+  stuProcessCellLog: 'https://zjyapp.icve.com.cn/newmobileapi/Student/stuProcessCellLog',
+  updateDataByCell: 'https://zjyapp.icve.com.cn/newmobileapi/AssistTeacher/updateDataByCell',
 };
 
 Crack.prototype.go = function (body, option) {
@@ -270,7 +269,8 @@ Crack.prototype.go = function (body, option) {
             openClassId: option.openClassId,
             cellId: option.cellId,
             cellLogId: option.cellLogId,
-            token: option.token
+            token: option.token,
+            stuId: option.stuId
           };
 
           request.requestByPost(that.requestUri.stuProcessCellLog, newOption)
